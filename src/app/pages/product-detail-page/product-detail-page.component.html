@@ -1,0 +1,119 @@
+<div
+  class="w-full min-h-screen flex justify-center items-start py-10 bg-gray-50"
+>
+  <mat-card class="w-full max-w-3xl p-8 rounded-2xl shadow-lg bg-white">
+    <h2 class="text-2xl font-bold mb-6 text-center text-blue-400">
+      Detalles del Producto
+    </h2>
+
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit($event)">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- ID (1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>ID</mat-label>
+          <input
+            matInput
+            placeholder="ID"
+            formControlName="id"
+            [readonly]="true"
+          />
+        </mat-form-field>
+
+        <!-- Nombre (1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="Nombre" formControlName="name" />
+        </mat-form-field>
+
+        <!-- Categoría (1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Categoría</mat-label>
+          <input matInput placeholder="Categoría" formControlName="category" />
+        </mat-form-field>
+
+        <!-- Stock (1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Stock</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Stock"
+            formControlName="stock"
+          />
+        </mat-form-field>
+
+        <!-- Imagen URL (1 columna) + Imagen (1 columna) -->
+        <div class="flex flex-col w-full">
+          <mat-form-field class="w-full">
+            <mat-label>Imagen URL</mat-label>
+            <input
+              matInput
+              placeholder="URL de la imagen"
+              formControlName="imageUrl"
+            />
+          </mat-form-field>
+        </div>
+        <div class="w-full flex items-center justify-center">
+          <img
+            [src]="productForm.get('imageUrl')?.value ? productForm.get('imageUrl')?.value : '/placeholder.webp'"
+            alt="Imagen del producto"
+            class="max-h-40 rounded shadow border"
+            style="object-fit: contain"
+          />
+        </div>
+
+        <!-- Precio (1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Precio</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Precio"
+            formControlName="price"
+          />
+        </mat-form-field>
+
+        <!-- Descripción (ocupa 2 columnas) -->
+        <mat-form-field class="w-full">
+          <mat-label>Descripción</mat-label>
+          <input
+            matInput
+            placeholder="Descripción"
+            formControlName="description"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-between mt-6 space-x-4">
+        <!-- Botón borrar alineado a la izquierda -->
+        <div>
+          @if (isAdmin()) {
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="onDelete()"
+          >
+            Borrar
+          </button>
+          }
+        </div>
+        <!-- Botones cancelar y guardar alineados a la derecha -->
+        <div class="flex space-x-4">
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="onCancel()"
+          >
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

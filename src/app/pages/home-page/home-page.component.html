@@ -1,0 +1,51 @@
+<div class="min-h-screen h-screen overflow-hidden bg-gray-50 flex flex-col">
+  <h1 class="text-4xl font-bold text-blue-500 mt-4 ml-12 text-left">
+    Bienvenido {{ user }}
+  </h1>
+  <h2 class="text-2xl mt-4 ml-12 text-left">
+    Hay un total de {{ pendingOrdersCount() }} pedidos por atender.
+  </h2>
+
+  <div class="flex-1 flex items-center justify-center">
+    <div
+      class="grid grid-cols-2 md:grid-cols-3 gap-12 w-full max-w-5xl px-8 mb-12"
+    >
+      <a
+        class="flex items-center justify-center h-56 rounded-xl shadow-lg bg-pink-600 text-2xl font-semibold text-white hover:bg-pink-700 transition"
+        [routerLink]="['/user']"
+      >
+        Usuario
+      </a>
+      <a
+        class="flex items-center justify-center h-56 rounded-xl shadow-lg bg-gray-600 text-2xl font-semibold text-white hover:bg-gray-700 transition"
+        [routerLink]="['/clockin']"
+      >
+        Fichaje
+      </a>
+      <a
+        class="flex items-center justify-center h-56 rounded-xl shadow-lg bg-blue-600 text-2xl font-semibold text-white hover:bg-blue-700 transition"
+        [routerLink]="['/products']"
+      >
+        Productos
+      </a>
+      <a
+        class="flex items-center justify-center h-56 rounded-xl shadow-lg bg-green-600 text-2xl font-semibold text-white hover:bg-green-700 transition"
+        [routerLink]="['/clients']"
+      >
+        Clientes
+      </a>
+      <a
+        class="flex items-center justify-center h-56 rounded-xl shadow-lg bg-yellow-600 text-2xl font-semibold text-white hover:bg-yellow-700 transition"
+        [routerLink]="['/orders']"
+      >
+        Pedidos
+      </a>
+      <a
+        class="flex items-center justify-center h-56 rounded-xl shadow-lg bg-purple-600 text-2xl font-semibold text-white hover:bg-purple-700 transition"
+        [routerLink]="['/billing']"
+      >
+        Facturas
+      </a>
+    </div>
+  </div>
+</div>

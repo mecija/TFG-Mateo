@@ -1,0 +1,32 @@
+<div class="w-full min-h-screen flex flex-col items-center bg-gray-50 py-10">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 w-full max-w-5xl">
+    @for (month of months; track $index) {
+      <div class="bg-white rounded-lg shadow-md p-4">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">
+          {{ month.name }}
+        </h3>
+        <div class="grid grid-cols-7 gap-0 text-center text-sm">
+          <!-- Días de la semana -->
+          @for (day of weekDays; track $index) {
+            <div class="font-bold text-gray-500">
+              {{ day }}
+            </div>
+          }
+          <!-- Días del mes -->
+          @for (day of month.days; track $index) {
+            <div
+              class="p-1 rounded-md hover:bg-blue-100 cursor-pointer"
+              (click)="ondayClick(day, month.index)"
+              [ngClass]="{ 'border-blue-400 border-2': isToday(day, month.index),
+                'bg-green-200 border-green-500 border-2': isMarked(day, month.index),
+                'bg-gray-200 border-gray-200 border-2': isFestive(day, month.index),
+              }"
+            >
+              {{ day || "" }}
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

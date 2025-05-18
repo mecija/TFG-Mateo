@@ -1,0 +1,30 @@
+<div>
+  <h2 class="text-lg font-semibold text-blue-400">Lista de Clientes</h2>
+  <div class="flex items-center justify-between mb-4">
+
+    <app-filter
+      [filterFields]="filterFields"
+      [activeField]="activeField()"
+      [searchValue]="searchValue()"
+      (filterChange)="onFilterChange($event)"
+    ></app-filter>
+
+    <mat-paginator
+      [length]="totalElements"
+      [pageSize]="size"
+      [pageIndex]="currentPage"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/clients/new']"
+      class="border border-blue-500 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition"
+    >
+      Añadir Cliente
+    </button>
+  </div>
+  <app-client-table-list [clients]="clients()"></app-client-table-list>
+</div>

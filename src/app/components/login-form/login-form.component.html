@@ -1,0 +1,39 @@
+<div class="fixed inset-0 flex items-center justify-center bg-gray-100">
+  <mat-card class="w-full max-w-md p-6 rounded-2xl shadow-lg">
+    <h2 class="text-2xl font-semibold text-center mb-6">Iniciar sesión</h2>
+    <form
+      class="flex flex-col gap-4"
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput type="email" formControlName="email" required />
+        @if (loginForm.get('email')?.hasError('required')) {
+        <mat-error>El correo es obligatorio</mat-error>
+        } @if (loginForm.get('email')?.hasError('email')) {
+        <mat-error>Correo no válido</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password" required />
+        @if (loginForm.get('password')?.hasError('required')) {
+        <mat-error>La contraseña es obligatoria</mat-error>
+        }
+      </mat-form-field>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          class="mt-2 w-full py-2 rounded-xl font-medium bg-accent"
+          [disabled]="loginForm.invalid"
+         
+          color="primary"
+        >
+          Ingresar
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

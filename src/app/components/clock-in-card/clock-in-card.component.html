@@ -1,0 +1,86 @@
+<div class="w-full flex justify-center items-center py-10  bg-opacity-25">
+  <mat-card class="w-full max-w-lg p-6 rounded-lg shadow-lg bg-white ">
+    <h2 class="text-xl font-bold text-center text-blue-400 mb-4">
+      Registro de Horas
+    </h2>
+
+    <form
+      [formGroup]="registroForm"
+      (ngSubmit)="onSubmit($event)"
+      class="space-y-4"
+    >
+      <!-- Día -->
+      <mat-form-field class="w-full">
+        <mat-label>Día</mat-label>
+        <input matInput formControlName="day" type="number" readonly />
+        @if (registroForm.get('day')?.hasError('required')) {
+        <mat-error> El día es obligatorio. </mat-error>
+
+        }
+      </mat-form-field>
+
+      <!-- Mes -->
+      <mat-form-field class="w-full">
+        <mat-label>Mes</mat-label>
+        <input matInput formControlName="month" type="number" readonly />
+        @if (registroForm.get('month')?.hasError('required')) {
+        <mat-error> El mes es obligatorio. </mat-error>
+
+        }
+      </mat-form-field>
+
+      <!-- Hora de Inicio -->
+      <mat-form-field class="w-full">
+        <mat-label>Hora de Inicio</mat-label>
+        <input matInput formControlName="horaInicio" type="time" />
+        @if (registroForm.get('horaInicio')?.hasError('required')) {
+        <mat-error> La hora de inicio es obligatoria </mat-error>
+
+        }
+      </mat-form-field>
+
+      <!-- Hora de Fin -->
+      <mat-form-field class="w-full">
+        <mat-label>Hora de Fin</mat-label>
+        <input matInput formControlName="horaFin" type="time" />
+        @if (registroForm.get('horaFin')?.hasError('required')) {
+        <mat-error> La hora de fin es obligatoria. </mat-error>
+
+        }
+      </mat-form-field>
+
+      <!-- Descripción -->
+      <mat-form-field class="w-full">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="descripcion" rows="3"></textarea>
+      </mat-form-field>
+
+      <!-- Botones -->
+      <div class="flex justify-end space-x-4">
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="registroForm.reset()"
+        >
+          Limpiar
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="registroForm.invalid"
+        >
+          Guardar
+        </button>
+
+        <button
+          class="text-red-500 hover:text-red-700 text-1xl"
+          (click)="onClose()"
+        >
+          Cerrar ✖
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

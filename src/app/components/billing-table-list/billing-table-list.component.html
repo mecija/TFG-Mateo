@@ -1,0 +1,54 @@
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full">
+    <!-- Ver Detalle (Ojo) -->
+    <ng-container matColumnDef="ver">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let bill">
+        <button mat-icon-button (click)="verDetalle(bill)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Destinatario Denominación Social -->
+    <ng-container matColumnDef="destinatarioDenomSocial">
+      <th mat-header-cell *matHeaderCellDef>Denominación Social (Destinatario)</th>
+      <td mat-cell *matCellDef="let bill">{{ bill.destinatarioDenomSocial }}</td>
+    </ng-container>
+
+    <!-- Destinatario NIF -->
+    <ng-container matColumnDef="destinatarioNif">
+      <th mat-header-cell *matHeaderCellDef>NIF (Destinatario)</th>
+      <td mat-cell *matCellDef="let bill">{{ bill.destinatarioNif }}</td>
+    </ng-container>
+
+    <!-- Destinatario Dirección Fiscal -->
+    <ng-container matColumnDef="destinatarioDireccionFiscal">
+      <th mat-header-cell *matHeaderCellDef>Dirección Fiscal (Destinatario)</th>
+      <td mat-cell *matCellDef="let bill">{{ bill.destinatarioDireccionFiscal }}</td>
+    </ng-container>
+
+    <!-- Emisor Denominación Social -->
+    <ng-container matColumnDef="emisorDenomSocial">
+      <th mat-header-cell *matHeaderCellDef>Denominación Social (Emisor)</th>
+      <td mat-cell *matCellDef="let bill">{{ bill.emisorDenomSocial }}</td>
+    </ng-container>
+
+    <!-- Emisor NIF -->
+    <ng-container matColumnDef="emisorNif">
+      <th mat-header-cell *matHeaderCellDef>NIF (Emisor)</th>
+      <td mat-cell *matCellDef="let bill">{{ bill.emisorNif }}</td>
+    </ng-container>
+
+    <!-- Número Correlativo -->
+    <ng-container matColumnDef="numeroCorrelativo">
+      <th mat-header-cell *matHeaderCellDef>Número Correlativo</th>
+      <td mat-cell *matCellDef="let bill">{{ bill.numeroCorrelativo }}</td>
+    </ng-container>
+
+    <!-- Header Row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- Data Rows -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

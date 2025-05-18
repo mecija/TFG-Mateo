@@ -1,0 +1,172 @@
+<div
+  class="w-full min-h-screen flex justify-center items-start py-10 bg-gray-50"
+>
+  <mat-card class="w-full max-w-3xl p-8 rounded-2xl shadow-lg bg-white">
+    <h2 class="text-2xl font-bold mb-6 text-center text-blue-400">
+      Detalles del Pedido
+    </h2>
+
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit($event)">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- ID (solo lectura, ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>ID</mat-label>
+          <input
+            matInput
+            placeholder="ID"
+            formControlName="orderId"
+            [readonly]="true"
+          />
+        </mat-form-field>
+
+        <!-- Cliente ID (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>ID Cliente</mat-label>
+          <input matInput placeholder="ID Cliente" formControlName="clientId" />
+        </mat-form-field>
+
+        <!-- Estado del pedido (selector) -->
+        <mat-form-field class="w-full">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="orderStatus">
+            @for (key of orderStatusKeys; track key) {
+            <mat-option [value]="key">
+              {{ orderStatus[key] }}
+            </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Importe (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Importe</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Importe"
+            formControlName="amount"
+          />
+        </mat-form-field>
+
+        <!-- Dirección de entrega (ocupa 2 columnas) -->
+        <mat-form-field class="w-full md:col-span-2">
+          <mat-label>Dirección de Entrega</mat-label>
+          <input
+            matInput
+            placeholder="Dirección de Entrega"
+            formControlName="deliveryAddress"
+          />
+        </mat-form-field>
+
+        <!-- Fecha de creación (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Fecha de Creación</mat-label>
+          <input
+            matInput
+            type="datetime-local"
+            formControlName="creationTime"
+          />
+        </mat-form-field>
+
+        <!-- Fecha de entrega (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Fecha de Entrega</mat-label>
+          <input
+            matInput
+            type="datetime-local"
+            formControlName="deliveryTime"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Sección de productos -->
+      <div class="col-span-2">
+        <h3 class="text-lg font-semibold mb-2">Productos</h3>
+        <div formArrayName="productos">
+          <div
+            *ngFor="let producto of productos.controls; let i = index"
+            [formGroupName]="i"
+            class="flex items-center gap-2 mb-2"
+          >
+            <mat-form-field class="w-48">
+              <mat-label>Producto ID</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="id"
+                placeholder="ID"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-32">
+              <mat-label>Cantidad</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="amount"
+                min="1"
+              />
+            </mat-form-field>
+            <button
+              mat-icon-button
+              color="warn"
+              type="button"
+              (click)="removeProducto(i)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="addProducto()"
+          >
+            Añadir producto
+          </button>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-between mt-6 space-x-4">
+        <!-- Botón borrar alineado a la izquierda -->
+        <div>
+          @if (isAdmin()) {
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="onDelete()"
+          >
+            Borrar
+          </button>
+
+
+          <button
+          class="ml-4"
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="createFactura()"
+          >
+            Crear factura
+          </button>
+          }
+        </div>
+        <!-- Botones cancelar y guardar alineados a la derecha -->
+        <div class="flex space-x-4">
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="onCancel()"
+          >
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

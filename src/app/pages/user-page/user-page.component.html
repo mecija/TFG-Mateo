@@ -1,0 +1,47 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center py-8">
+  <h2 class="text-4xl font-bold text-blue-500 mb-10 w-full text-left pl-8">Perfil de usuario</h2>
+  @if (userData()) {
+    <div class="w-full max-w-5xl px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white rounded-xl shadow-lg p-10 mb-8">
+        <div class="flex flex-col gap-2">
+          <span class="text-gray-500 text-lg">Nombre</span>
+          <span class="text-2xl font-semibold">{{ userData()?.name }}</span>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-gray-500 text-lg">Email</span>
+          <span class="text-2xl font-semibold">{{ userData()?.email }}</span>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-gray-500 text-lg">Estado</span>
+          <span class="text-2xl font-semibold">
+            <span
+              class="inline-block px-3 py-1 rounded-full"
+              [ngClass]="userData()?.enabled ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+            >
+              {{ userData()?.enabled ? 'Activo' : 'Deshabilitado' }}
+            </span>
+          </span>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-gray-500 text-lg">Roles</span>
+          <div class="flex flex-wrap gap-2 mt-1">
+            @for (role of userData()?.roles; track role.name) {
+              <span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded">
+                {{ role.name }}
+              </span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+        <span class="text-lg text-gray-700 font-semibold">
+          Horas fichadas esta semana:
+          <span class="text-2xl text-blue-700">{{ horasSemana() }}h</span>
+        </span>
+      </div>
+    </div>
+  }
+  @else {
+    <div class="text-center text-gray-400 py-8 w-full">Cargando datos de usuario...</div>
+  }
+</div>

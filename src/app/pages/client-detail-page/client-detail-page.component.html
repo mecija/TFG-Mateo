@@ -1,0 +1,107 @@
+<div
+  class="w-full min-h-screen flex justify-center items-start py-10 bg-gray-50"
+>
+  <mat-card class="w-full max-w-3xl p-8 rounded-2xl shadow-lg bg-white">
+    <h2 class="text-2xl font-bold mb-6 text-center text-blue-400">
+      Detalles del Cliente
+    </h2>
+
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit($event)">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- ID (solo lectura, ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>ID</mat-label>
+          <input
+            matInput
+            placeholder="ID"
+            formControlName="id"
+            [readonly]="true"
+          />
+        </mat-form-field>
+
+        <!-- DNI (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>DNI</mat-label>
+          <input matInput placeholder="DNI" formControlName="dni" />
+        </mat-form-field>
+
+        <!-- Nombre (ocupa 2 columnas, solo lectura) -->
+        <mat-form-field class="w-full md:col-span-2">
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="Nombre" formControlName="nombre" />
+        </mat-form-field>
+
+        <!-- País (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>País</mat-label>
+          <input matInput placeholder="País" formControlName="pais" />
+        </mat-form-field>
+
+        <!-- Zona (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Direccion</mat-label>
+          <input matInput placeholder="Direccion" formControlName="direccion" />
+        </mat-form-field>
+
+        <!-- Empresa (ocupa 2 columnas) -->
+        <mat-form-field class="w-full md:col-span-2">
+          <mat-label>Empresa</mat-label>
+          <input matInput placeholder="Empresa" formControlName="empresa" />
+        </mat-form-field>
+
+        <!-- Teléfono (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Teléfono</mat-label>
+          <input matInput placeholder="Teléfono" formControlName="telefono" />
+        </mat-form-field>
+
+        <!-- Email (ocupa 1 columna) -->
+        <mat-form-field class="w-full">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Email" formControlName="email" />
+        </mat-form-field>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-between mt-6 space-x-4">
+        <!-- Botón borrar alineado a la izquierda -->
+        <div>
+          @if (isAdmin()) {
+            <button
+              mat-raised-button
+              color="warn"
+              type="button"
+              (click)="onDelete()"
+            >
+              Borrar
+            </button>
+          }
+        </div>
+        <!-- Botones cancelar y guardar alineados a la derecha -->
+        <div class="flex space-x-4">
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="onCancel()"
+          >
+            Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit">Guardar</button>
+        </div>
+      </div>
+
+      <!-- Botón buscar facturas relacionadas, centrado abajo -->
+      <div class="flex justify-center mt-8">
+        <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="onBuscarFacturasRelacionadas()"
+        >
+          Buscar facturas relacionadas
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

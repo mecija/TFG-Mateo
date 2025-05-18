@@ -1,0 +1,36 @@
+<div class="flex items-center gap-2">
+  <select
+    class="border rounded px-2 py-1"
+    [value]="activeField()"
+    (change)="onFieldChange($event)"
+  >
+    @for (field of filterFields(); track field) {
+    <option [value]="field">
+      {{ field | filterField }}
+    </option>
+    }
+  </select>
+
+  @if (activeField() === 'orderStatus') {
+  <select
+    class="border rounded px-2 py-1"
+    [value]="searchValue()"
+    (change)="onSearchChange($event)"
+  >
+    <option value="">Todos</option>
+    <option value="IN_PROGRESS">En progreso</option>
+    <option value="DELIVERED">Entregado</option>
+    <option value="CANCELLED">Cancelado</option>
+    <option value="PENDING">Pendiente</option>
+    <option value="COMPLETED">Completado</option>
+  </select>
+  }@else {
+  <input
+    class="border rounded px-2 py-1"
+    type="text"
+    [placeholder]="'Buscar por ' + (activeField() | filterField)"
+    [value]="searchValue()"
+    (input)="onSearchChange($event)"
+  />
+  }
+</div>

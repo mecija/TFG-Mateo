@@ -1,0 +1,239 @@
+<div class="container mat-elevation-z2 p-4 bg-gray-100">
+  <form [formGroup]="billingForm">
+    <!-- Parte superior: Datos del destinatario y emisor -->
+    <div class="row">
+      <!-- Datos del destinatario -->
+      <div class="column space-x-2">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">
+          Datos del Destinatario
+        </h3>
+        <mat-form-field class="w-96">
+          <mat-label>Denominación Social</mat-label>
+          <input
+            matInput
+            placeholder="Denominación Social"
+            formControlName="destinatarioDenomSocial"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-48">
+          <mat-label>NIF</mat-label>
+          <input matInput placeholder="NIF" formControlName="destinatarioNif" />
+        </mat-form-field>
+        <mat-form-field class="w-64">
+          <mat-label>Dirección</mat-label>
+          <input
+            matInput
+            placeholder="Dirección"
+            formControlName="destinatarioDIR"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-92">
+          <mat-label>Dirección Fiscal</mat-label>
+          <input
+            matInput
+            placeholder="Dirección Fiscal"
+            formControlName="destinatarioDireccionFiscal"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Datos del emisor -->
+      <div class="column space-x-2">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4">
+          Datos del Emisor
+        </h3>
+        <mat-form-field class="w-96">
+          <mat-label>Denominación Social</mat-label>
+          <input
+            matInput
+            placeholder="Denominación Social"
+            formControlName="emisorDenomSocial"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-48">
+          <mat-label>NIF</mat-label>
+          <input matInput placeholder="NIF" formControlName="emisorNif" />
+        </mat-form-field>
+        <mat-form-field class="w-92">
+          <mat-label>Dirección Fiscal</mat-label>
+          <input
+            matInput
+            placeholder="Dirección Fiscal"
+            formControlName="emisorDireccionFiscal"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Parte inferior: Datos de la factura -->
+    <div class="row space-x-2">
+      <h3 class="text-lg font-semibold text-blue-400 mb-4">
+        Datos de la Factura
+      </h3>
+      <mat-form-field class="w-full">
+        <mat-label>Concepto</mat-label>
+        <textarea
+          matInput
+          placeholder="Concepto"
+          formControlName="concepto"
+          rows="3"
+        ></textarea>
+      </mat-form-field>
+      <mat-form-field class="w-48">
+        <mat-label>ID</mat-label>
+        <input matInput formControlName="id" [readonly]="true" />
+      </mat-form-field>
+      <mat-form-field class="w-64">
+        <mat-label>Serie</mat-label>
+        <input matInput placeholder="Serie" formControlName="serie" />
+      </mat-form-field>
+      <mat-form-field class="w-64">
+        <mat-label>Número Correlativo</mat-label>
+        <input
+          matInput
+          placeholder="Número Correlativo"
+          formControlName="numeroCorrelativo"
+        />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Fecha de Emisión</mat-label>
+        <input matInput type="date" formControlName="fechaEmision" />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Fecha de Vencimiento</mat-label>
+        <input matInput type="date" formControlName="fechaVencimiento" />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Albaranes</mat-label>
+        <input matInput placeholder="Albaranes" formControlName="albaranes" />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Tipo IVA</mat-label>
+        <input matInput placeholder="Tipo IVA" formControlName="tipoIVA" />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Tipo Retención</mat-label>
+        <input
+          matInput
+          placeholder="Tipo Retención"
+          formControlName="tipoRetencion"
+        />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Base Factura</mat-label>
+        <input
+          matInput
+          placeholder="Base Factura"
+          formControlName="baseFactura"
+        />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Importe Final</mat-label>
+        <input
+          [readonly]="true"
+          matInput
+          placeholder="Importe Final"
+          formControlName="importeFinal"
+        />
+      </mat-form-field>
+      <mat-form-field class="full-width w-72">
+        <mat-label>Forma de Pago</mat-label>
+        <input
+          matInput
+          placeholder="Forma de Pago"
+          formControlName="formaPago"
+        />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Fecha de Pago</mat-label>
+        <input
+          matInput
+          type="date"
+          placeholder="Fecha de Pago"
+          formControlName="fechaPago"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Botón de envío -->
+    <div class="flex justify-between mt-6 space-x-4">
+      <!-- Botón borrar alineado a la izquierda -->
+      <div>
+        @if (isAdmin()) {
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="onDelete()"
+        >
+          Borrar
+        </button>
+        }
+
+        <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="generatePdf()"
+        >
+          Descargar PDF
+        </button>
+      </div>
+      <!-- Botones cancelar y guardar alineados a la derecha -->
+      <div class="flex space-x-4">
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="onCancel()"
+        >
+          Cancelar
+        </button>
+        <button mat-raised-button color="primary" (click)="onSubmit()">
+          Guardar
+        </button>
+      </div>
+    </div>
+
+    <!-- Botones buscar clientes por emisor y destinatario -->
+    <div class="flex flex-col items-center mt-8 gap-4">
+      <!-- Botones de buscar clientes (centrados y en la misma fila) -->
+      <div class="flex flex-row gap-4 justify-center">
+        <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="onBuscarClientePorEmisor()"
+        >
+          Buscar cliente (emisor)
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="onBuscarClientePorDestinatario()"
+        >
+          Buscar cliente (destinatario)
+        </button>
+      </div>
+      <div class="flex flex-row gap-4 justify-center">
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="onBuscarFacturasPorEmisor()"
+        >
+          Buscar facturas de este emisor
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="onBuscarFacturasPorDestinatario()"
+        >
+          Buscar facturas de este destinatario
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

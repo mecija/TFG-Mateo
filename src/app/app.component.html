@@ -1,0 +1,48 @@
+<mat-sidenav-container class="h-screen">
+  <mat-sidenav mode="side" [opened]="showSidenav" class="bg-gray-100 max-w-56">
+    <div class="p-4 border-b border-gray-300">
+      <h2 class="text-3xl font-semibold text-blue-400">{{ appName }}</h2>
+    </div>
+    <mat-nav-list class="flex flex-col gap-4 mt-6">
+      @for (item of itemsMenu; track item.path) {
+      <a
+        mat-list-item
+        [routerLink]="item.path"
+        routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="my-2 rounded-none bg-white transition hover:bg-blue-50 px-0 font-semibold text-gray-700 text-center border border-gray-200"
+        style="box-shadow: none; min-width: 100px; border-radius: 0 !important;"
+      >
+        {{ item.title }}
+      </a>
+      }
+     @if (isAdmin()) {
+        <a
+          mat-list-item
+          [routerLink]="['/admin']"
+          routerLinkActive="router-link-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="my-2 rounded-none bg-white transition hover:bg-blue-50 px-0 font-semibold text-gray-700 text-center border border-gray-200"
+          style="box-shadow: none; min-width: 100px; border-radius: 0 !important;"
+        >
+          Administración
+        </a>
+      }
+      <div class="border-t border-gray-300 mt-8 pt-4">
+        <a
+          mat-list-item
+          class="rounded-none bg-red-500 text-white font-semibold px-4 py-3 hover:bg-red-600 transition text-center"
+          [routerLink]="['/login']"
+          (click)="logout()"
+          style="box-shadow: none; border-radius: 0 !important;"
+        >
+          Logout
+        </a>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="bg-white p-8">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
