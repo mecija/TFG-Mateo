@@ -4,7 +4,7 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-  - url: http://aj6cmtg7.up.railway.app:8080
+  - url: https://jasperflow.fly.dev
     description: Generated server url
 paths:
   "/api/users/{id}":
