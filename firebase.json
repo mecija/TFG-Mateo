@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/tfg-mateo",
     "ignore": [
       "firebase.json",
       "**/.*",
