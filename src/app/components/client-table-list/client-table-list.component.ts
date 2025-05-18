@@ -20,7 +20,7 @@ export class ClientTableListComponent {
     'nombre',
     'empresa',
     'pais',
-    'zona',
+    'direccion',
   ];
   router = inject(Router);
 

@@ -72,7 +72,8 @@ export class FilterFieldLabelPipe implements PipeTransform {
         return 'Estado';
       case 'email':
         return 'Correo electrónico';
-
+      case 'direccion':
+        return 'Dirección';
       default:
         return value;
     }

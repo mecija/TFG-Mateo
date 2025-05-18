@@ -36,7 +36,7 @@ export class ClientPageComponent implements OnInit {
   sortDirection = signal<'asc' | 'desc'>('asc');
 
   // Filtro
-  filterFields = ['dni', 'nombre', 'empresa', 'pais', 'zona'];
+  filterFields = ['dni', 'nombre', 'empresa', 'pais', 'direccion'];
   activeField = signal('id');
   searchValue = signal('');
 
