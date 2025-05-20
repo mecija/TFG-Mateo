@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  OnInit,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -30,8 +31,9 @@ import { ProductEdit } from '../../api/model/productEdit';
 import { BillEdit } from '../../api/model/billEdit';
 import { ClientEdit } from '../../api/model/clientEdit';
 
-
-function datetimeLocalValidator(control: AbstractControl): ValidationErrors | null {
+function datetimeLocalValidator(
+  control: AbstractControl
+): ValidationErrors | null {
   const value = control.value;
   if (!value) return null;
   const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
@@ -54,7 +56,7 @@ function datetimeLocalValidator(control: AbstractControl): ValidationErrors | nu
   templateUrl: './order-detail-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderDetailPageComponent {
+export class OrderDetailPageComponent implements OnInit {
   orderForm!: FormGroup;
   fb = inject(FormBuilder);
   route = inject(ActivatedRoute);
@@ -71,16 +73,23 @@ export class OrderDetailPageComponent {
   });
 
   orderStatus = ORDER_STATUS;
-  orderStatusKeys = Object.keys(ORDER_STATUS) as Array<keyof typeof ORDER_STATUS>;
+  orderStatusKeys = Object.keys(ORDER_STATUS) as Array<
+    keyof typeof ORDER_STATUS
+  >;
+
+  productosDisponibles: ProductEdit[] = [];
 
   constructor() {
     this.orderForm = this.fb.group({
-      orderId: [{ value: '', disabled: true }],
+      orderId: [''],
       creationTime: ['', [datetimeLocalValidator, Validators.required]],
       deliveryTime: ['', [datetimeLocalValidator, Validators.required]],
       clientId: ['', Validators.required],
       orderStatus: ['', Validators.required],
-      amount: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+      amount: [
+        '',
+        [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
+      ],
       deliveryAddress: ['', Validators.required],
       productos: this.fb.array([]),
     });
@@ -89,7 +98,7 @@ export class OrderDetailPageComponent {
     if (orderId && orderId !== 'new') {
       this.orderService.getOrderById(Number(orderId)).subscribe((order) => {
         console.log(order);
-        
+
         if (order) {
           const fixDate = (dateStr: string) =>
             dateStr ? dateStr.slice(0, 16) : '';
@@ -107,7 +116,10 @@ export class OrderDetailPageComponent {
               productosArray.push(
                 this.fb.group({
                   id: [prod.id, Validators.required],
-                  amount: [prod.amount, [Validators.required, Validators.min(1)]],
+                  amount: [
+                    prod.amount,
+                    [Validators.required, Validators.min(1)],
+                  ],
                 })
               );
             });
@@ -119,6 +131,14 @@ export class OrderDetailPageComponent {
     this.productos.valueChanges.subscribe(() => {
       this.calcularImporteTotal();
     });
+  }
+
+  ngOnInit() {
+    this.productService
+      .getAllProducts({ page: 0, size: 100 })
+      .subscribe((res) => {
+        this.productosDisponibles = res.content || [];
+      });
   }
 
   get productos(): FormArray {
@@ -157,15 +177,19 @@ export class OrderDetailPageComponent {
             }
             pending--;
             if (pending === 0) {
-              this.orderForm.get('amount')?.setValue(Math.round(total * 100) / 100);
+              this.orderForm
+                .get('amount')
+                ?.setValue(Math.round(total * 100) / 100);
             }
           },
           error: () => {
             pending--;
             if (pending === 0) {
-              this.orderForm.get('amount')?.setValue(Math.round(total * 100) / 100);
+              this.orderForm
+                .get('amount')
+                ?.setValue(Math.round(total * 100) / 100);
             }
-          }
+          },
         });
       } else {
         pending--;
@@ -226,38 +250,90 @@ export class OrderDetailPageComponent {
     this.router.navigate(['/orders']);
   }
 
-
-
-  private buildConceptoString(productos: any[], callback: (concepto: string) => void) {
+  private buildConceptoString(
+    productos: any[],
+    callback: (concepto: string) => void
+  ) {
     if (!productos || productos.length === 0) {
       callback('');
       return;
     }
 
-     const tabs ='\t\t\t\t\t\t\t\t';
-    let concepto = `Producto${tabs}  Cantidad \t\t\t\t  Precio\n`;
     let pending = productos.length;
+    const productsData: { name: string; amount: string; price: string }[] = [];
 
-    productos.forEach((prod) => {
+    productos.forEach((prod, index) => {
       if (prod.id && prod.amount) {
         this.productService.getProductById(prod.id).subscribe({
           next: (product: ProductEdit) => {
-           
-            concepto += `${product.name}${tabs} ${prod.amount}${tabs} ${product.price}€\n`;
+            productsData[index] = {
+              name: product.name || `ID:${prod.id}`,
+              amount: String(prod.amount),
+              price: `${product.price}€`,
+            };
+
             pending--;
-            if (pending === 0) callback(concepto.trim());
+            if (pending === 0) generateFormattedText();
           },
           error: () => {
-            concepto += `ID:${prod.id}\t\t ${prod.amount}\t\t ?\n`;
+            productsData[index] = {
+              name: `ID:${prod.id}`,
+              amount: String(prod.amount),
+              price: '?',
+            };
+
             pending--;
-            if (pending === 0) callback(concepto.trim());
-          }
+            if (pending === 0) generateFormattedText();
+          },
         });
       } else {
+        productsData[index] = {
+          name: '',
+          amount: '',
+          price: '',
+        };
+
         pending--;
-        if (pending === 0) callback(concepto.trim());
+        if (pending === 0) generateFormattedText();
       }
     });
+
+    function generateFormattedText() {
+      const col1Header = 'Producto';
+      const col2Header = 'Cantidad';
+      const col3Header = 'Precio';
+      
+      // Calcular anchos máximos
+      const col1Width = Math.max(col1Header.length, ...productsData.map(p => p.name.length));
+      const col2Width = Math.max(col2Header.length, ...productsData.map(p => p.amount.length));
+      
+      // Espacios fijos para cada columna
+      const col1Space = 20; // Ajusta este número según necesites
+      const col2Space = 10; // Ajusta este número según necesites
+      
+      let concepto = "Concepto:\n";
+      
+      // Encabezados con espacios literales
+      concepto += col1Header.padEnd(col1Space) + " | " + 
+                  col2Header.padEnd(col2Space) + " | " + 
+                  col3Header + "\n";
+      
+      // Línea separadora alineada exactamente con los encabezados
+      concepto += "-".repeat(col1Space) + "-+-" + 
+                  "-".repeat(col2Space) + "-+-" + 
+                  "-".repeat(col3Header.length) + "\n";
+      
+      // Datos con espacios literales
+      productsData.forEach(data => {
+        if (data.name || data.amount || data.price) {
+          concepto += data.name.padEnd(col1Space) + " | " +
+                     data.amount.padEnd(col2Space) + " | " +
+                     data.price + "\n";
+        }
+      });
+      
+      callback(concepto.trim());
+    }
   }
 
   createFactura() {
@@ -268,21 +344,42 @@ export class OrderDetailPageComponent {
       return;
     }
 
-    this.clientService.getClientById(clientId).subscribe((client: ClientEdit) => {
-      this.buildConceptoString(orderData.productos, (concepto) => {
-        const billData: Partial<BillEdit> = {
-          destinatarioDenomSocial: client.empresa || client.nombre,
-          destinatarioNif: client.dni,
-          destinatarioDIR: client.direccion,
-          destinatarioDireccionFiscal: client.direccion,
-          concepto,
-          baseFactura: orderData.amount?.toString() ?? '',
-        };
-        this.router.navigate(['/billing/new'], { state: { billData } });
+    this.clientService
+      .getClientById(clientId)
+      .subscribe((client: ClientEdit) => {
+        this.buildConceptoString(orderData.productos, (concepto) => {
+          const billData: Partial<BillEdit> = {
+            destinatarioDenomSocial: client.empresa || client.nombre,
+            destinatarioNif: client.dni,
+            destinatarioDIR: client.direccion,
+            destinatarioDireccionFiscal: client.direccion,
+            concepto,
+            baseFactura: orderData.amount?.toString() ?? '',
+          };
+          this.router.navigate(['/billing/new'], { state: { billData } });
+        });
       });
-    });
   }
 
+  getNombreProducto(id: number): string {
+    const prod = this.productosDisponibles.find((p) => p.id === id);
+    return prod!.name ?? '';
+  }
 
-  
+  getPrecioProducto(id: number): string {
+    const prod = this.productosDisponibles.find((p) => p.id === id);
+    return prod && prod.price != null ? prod.price + '€' : '';
+  }
+
+  onProductoSeleccionado(index: number, producto: ProductEdit) {
+    const productosArray = this.productos;
+    const productoGroup = productosArray.at(index);
+    if (productoGroup) {
+      productoGroup.get('id')?.setValue(producto.id);
+    }
+  }
+
+  getProductoById(id: number): ProductEdit | undefined {
+    return this.productosDisponibles.find((p) => p.id === id);
+  }
 }

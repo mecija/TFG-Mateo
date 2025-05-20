@@ -80,15 +80,42 @@
             [formGroupName]="i"
             class="flex items-center gap-2 mb-2"
           >
-            <mat-form-field class="w-48">
-              <mat-label>Producto ID</mat-label>
+            <!-- Selector de producto por nombre -->
+            <mat-form-field class="w-64">
+              <mat-label>Producto</mat-label>
+              <mat-select
+                [value]="getProductoById(producto.get('id')?.value)"
+                (selectionChange)="onProductoSeleccionado(i, $event.value)"
+              >
+                <mat-option *ngFor="let prod of productosDisponibles" [value]="prod">
+                  {{ prod.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Campo ID readonly -->
+            <mat-form-field class="w-32">
+              <mat-label>ID</mat-label>
               <input
                 matInput
                 type="number"
                 formControlName="id"
-                placeholder="ID"
+                [readonly]="true"
               />
             </mat-form-field>
+
+
+            <!-- Campo Precio readonly -->
+            <mat-form-field class="w-32">
+              <mat-label>Precio</mat-label>
+              <input
+                matInput
+                [value]="getPrecioProducto(producto.get('id')?.value)"
+                readonly
+              />
+            </mat-form-field>
+
+            <!-- Campo Cantidad -->
             <mat-form-field class="w-32">
               <mat-label>Cantidad</mat-label>
               <input
@@ -98,6 +125,7 @@
                 min="1"
               />
             </mat-form-field>
+
             <button
               mat-icon-button
               color="warn"
