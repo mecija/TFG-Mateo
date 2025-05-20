@@ -38,9 +38,8 @@ export class UserPageComponent implements OnInit {
   }
 
   cargarHorasSemana(userId: number) {
-    // Calcular inicio y fin de la semana actual (lunes a domingo)
     const now = new Date();
-    const day = now.getDay() || 7; // Domingo=0, Lunes=1...
+    const day = now.getDay() || 7; 
     const monday = new Date(now);
     monday.setDate(now.getDate() - day + 1);
     monday.setHours(0, 0, 0, 0);
@@ -69,7 +68,6 @@ export class UserPageComponent implements OnInit {
             }
           }
         }
-        // Convierte totalMs a horas con dos decimales
         this.horasSemana.set(
           Math.round((totalMs / 1000 / 60 / 60) * 100) / 100
         );

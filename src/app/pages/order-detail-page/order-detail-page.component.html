@@ -8,7 +8,6 @@
 
     <form [formGroup]="orderForm" (ngSubmit)="onSubmit($event)">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- ID (solo lectura, ocupa 1 columna) -->
         <mat-form-field class="w-full">
           <mat-label>ID</mat-label>
           <input
@@ -19,13 +18,11 @@
           />
         </mat-form-field>
 
-        <!-- Cliente ID (ocupa 1 columna) -->
         <mat-form-field class="w-full">
           <mat-label>ID Cliente</mat-label>
           <input matInput placeholder="ID Cliente" formControlName="clientId" />
         </mat-form-field>
 
-        <!-- Estado del pedido (selector) -->
         <mat-form-field class="w-full">
           <mat-label>Estado</mat-label>
           <mat-select formControlName="orderStatus">
@@ -37,7 +34,6 @@
           </mat-select>
         </mat-form-field>
 
-        <!-- Importe (ocupa 1 columna) -->
         <mat-form-field class="w-full">
           <mat-label>Importe</mat-label>
           <input
@@ -48,7 +44,6 @@
           />
         </mat-form-field>
 
-        <!-- Dirección de entrega (ocupa 2 columnas) -->
         <mat-form-field class="w-full md:col-span-2">
           <mat-label>Dirección de Entrega</mat-label>
           <input
@@ -58,7 +53,6 @@
           />
         </mat-form-field>
 
-        <!-- Fecha de creación (ocupa 1 columna) -->
         <mat-form-field class="w-full">
           <mat-label>Fecha de Creación</mat-label>
           <input
@@ -68,7 +62,6 @@
           />
         </mat-form-field>
 
-        <!-- Fecha de entrega (ocupa 1 columna) -->
         <mat-form-field class="w-full">
           <mat-label>Fecha de Entrega</mat-label>
           <input
@@ -79,7 +72,6 @@
         </mat-form-field>
       </div>
 
-      <!-- Sección de productos -->
       <div class="col-span-2">
         <h3 class="text-lg font-semibold mb-2">Productos</h3>
         <div formArrayName="productos">
@@ -126,9 +118,7 @@
         </div>
       </div>
 
-      <!-- Botones -->
       <div class="flex justify-between mt-6 space-x-4">
-        <!-- Botón borrar alineado a la izquierda -->
         <div>
           @if (isAdmin()) {
           <button
@@ -152,7 +142,6 @@
           </button>
           }
         </div>
-        <!-- Botones cancelar y guardar alineados a la derecha -->
         <div class="flex space-x-4">
           <button
             mat-raised-button

@@ -131,7 +131,6 @@ export class ClockInPageComponent {
         const date = new Date(fichaje.initialTime!);
         return { day: date.getDate(), month: date.getMonth() + 1 };
       });
-      // Elimina duplicados
       const uniqueDays = days.filter(
         (d, i, arr) => arr.findIndex(dd => dd.day === d.day && dd.month === d.month) === i
       );

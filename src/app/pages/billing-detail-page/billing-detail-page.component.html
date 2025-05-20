@@ -1,8 +1,6 @@
 <div class="container mat-elevation-z2 p-4 bg-gray-100">
   <form [formGroup]="billingForm">
-    <!-- Parte superior: Datos del destinatario y emisor -->
     <div class="row">
-      <!-- Datos del destinatario -->
       <div class="column space-x-2">
         <h3 class="text-lg font-semibold text-blue-400 mb-4">
           Datos del Destinatario
@@ -37,7 +35,6 @@
         </mat-form-field>
       </div>
 
-      <!-- Datos del emisor -->
       <div class="column space-x-2">
         <h3 class="text-lg font-semibold text-blue-400 mb-4">
           Datos del Emisor
@@ -65,7 +62,6 @@
       </div>
     </div>
 
-    <!-- Parte inferior: Datos de la factura -->
     <div class="row space-x-2">
       <h3 class="text-lg font-semibold text-blue-400 mb-4">
         Datos de la Factura
@@ -155,9 +151,7 @@
       </mat-form-field>
     </div>
 
-    <!-- Botón de envío -->
     <div class="flex justify-between mt-6 space-x-4">
-      <!-- Botón borrar alineado a la izquierda -->
       <div>
         @if (isAdmin()) {
         <button
@@ -179,7 +173,6 @@
           Descargar PDF
         </button>
       </div>
-      <!-- Botones cancelar y guardar alineados a la derecha -->
       <div class="flex space-x-4">
         <button
           mat-raised-button
@@ -195,9 +188,7 @@
       </div>
     </div>
 
-    <!-- Botones buscar clientes por emisor y destinatario -->
     <div class="flex flex-col items-center mt-8 gap-4">
-      <!-- Botones de buscar clientes (centrados y en la misma fila) -->
       <div class="flex flex-row gap-4 justify-center">
         <button
           mat-raised-button

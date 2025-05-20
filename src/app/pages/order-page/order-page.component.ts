@@ -69,7 +69,6 @@ export class OrderPageComponent implements OnInit {
         (orderFilter as any)[this.activeField()] = this.searchValue();
       }
 
-      // Si tu servicio tiene un método getOrdersWithFilters, úsalo:
       if (typeof this.orderService.getOrdersWithFilters === 'function') {
         this.orderService
           .getOrdersWithFilters(pageable, orderFilter)

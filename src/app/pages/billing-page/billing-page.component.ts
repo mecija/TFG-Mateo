@@ -24,7 +24,6 @@ export class BillingPageComponent implements OnInit {
   sortField = signal('id');
   sortDirection = signal<'asc' | 'desc'>('asc');
 
-  // Filtro
   filterFields = [
     'destinatarioDenomSocial',
     'destinatarioNif',
@@ -64,7 +63,6 @@ export class BillingPageComponent implements OnInit {
 
     if (this.searchValue() && this.activeField()) {
       const billFilter: BillFilter = {};
-      // Convierte a número si el campo es id
       if (this.activeField() === 'id') {
         (billFilter as any)[this.activeField()] = Number(this.searchValue());
       } else {

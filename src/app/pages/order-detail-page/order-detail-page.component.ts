@@ -91,7 +91,6 @@ export class OrderDetailPageComponent {
         console.log(order);
         
         if (order) {
-          // Corrige formato de fechas para los inputs datetime-local
           const fixDate = (dateStr: string) =>
             dateStr ? dateStr.slice(0, 16) : '';
 
@@ -117,13 +116,11 @@ export class OrderDetailPageComponent {
       });
     }
 
-    // Suscríbete a cambios en productos para recalcular el importe
     this.productos.valueChanges.subscribe(() => {
       this.calcularImporteTotal();
     });
   }
 
-  // Getter para el FormArray
   get productos(): FormArray {
     return this.orderForm.get('productos') as FormArray;
   }
@@ -141,7 +138,6 @@ export class OrderDetailPageComponent {
     this.productos.removeAt(index);
   }
 
-  // Calcula el importe total del pedido
   calcularImporteTotal() {
     const productos = this.productos.value;
     if (!productos || productos.length === 0) {
@@ -161,7 +157,6 @@ export class OrderDetailPageComponent {
             }
             pending--;
             if (pending === 0) {
-              // Redondea a 2 decimales
               this.orderForm.get('amount')?.setValue(Math.round(total * 100) / 100);
             }
           },
@@ -239,7 +234,6 @@ export class OrderDetailPageComponent {
       return;
     }
 
-    // Cabecera con separadores y tabulaciones
      const tabs ='\t\t\t\t\t\t\t\t';
     let concepto = `Producto${tabs}  Cantidad \t\t\t\t  Precio\n`;
     let pending = productos.length;

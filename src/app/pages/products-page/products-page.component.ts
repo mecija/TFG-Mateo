@@ -32,7 +32,6 @@ export class ProductsPageComponent implements OnInit {
   size = 10;
   totalElements = 0;
 
-  // Filtro
   filterFields = ['id', 'name', 'category', 'minPrice', 'maxPrice', 'minStock', 'maxStock'];
   activeField = signal('id');
   searchValue = signal('');

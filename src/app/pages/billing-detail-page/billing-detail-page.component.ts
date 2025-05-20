@@ -72,7 +72,6 @@ export class BillingDetailPageComponent {
         '',
         [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
       ],
-      // Importe final: deshabilitado, calculado automáticamente
       importeFinal: [],
       formaPago: [''],
       fechaPago: [''],
@@ -92,7 +91,6 @@ export class BillingDetailPageComponent {
       });
     }
 
-    // Calcula el importe final automáticamente
     this.billingForm
       .get('baseFactura')
       ?.valueChanges.subscribe(() => this.calcularImporteFinal());

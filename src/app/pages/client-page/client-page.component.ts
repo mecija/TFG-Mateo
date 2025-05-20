@@ -35,7 +35,6 @@ export class ClientPageComponent implements OnInit {
   sortField = signal('id');
   sortDirection = signal<'asc' | 'desc'>('asc');
 
-  // Filtro
   filterFields = ['dni', 'nombre', 'empresa', 'pais', 'direccion'];
   activeField = signal('id');
   searchValue = signal('');
@@ -62,7 +61,6 @@ export class ClientPageComponent implements OnInit {
 
     if (this.searchValue() && this.activeField()) {
       const clientFilter: ClientFilter = {};
-      // Convierte a número si el campo es id
       if (this.activeField() === 'id') {
         (clientFilter as any)[this.activeField()] = Number(this.searchValue());
       } else {
