@@ -22,6 +22,11 @@ import { UserEdit } from '../../api/model/userEdit';
 import { RoleDTO } from '../../api/model/roleDTO';
 import { AuthService } from '../../services/auth.service';
 import { NgForOf, NgIf } from '@angular/common';
+import { FichajeControllerService } from '../../api/api/fichajeController.service';
+import { FichajeEdit } from '../../api/model/fichajeEdit';
+import { FichajeFilter } from '../../api/model/fichajeFilter';
+import { UsersTableListComponent } from '../../components/users-table-list/users-table-list.component';
+import { UserClockinTableListComponent } from "../../components/user-clockin-table-list/user-clockin-table-list.component";
 
 const STATIC_ROLES: RoleDTO[] = [
   {
@@ -51,7 +56,8 @@ const STATIC_ROLES: RoleDTO[] = [
     MatButtonModule,
     MatSelectModule,
     ReactiveFormsModule,
-  ],
+    UserClockinTableListComponent
+],
   templateUrl: './user-detail-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -64,12 +70,15 @@ export class UserDetailPageComponent {
 
   userService = inject(UserControllerService);
   authService = inject(AuthService);
+  fichajeService = inject(FichajeControllerService);
 
   roles: RoleDTO[] = STATIC_ROLES;
   isAdmin = computed(() => {
     const user = this.authService.user();
     return !!user?.roles?.some((role) => role.name === 'ADMIN');
   });
+
+  userClockinList = signal<FichajeEdit[]>([]);
 
   constructor() {
     const userId = this.route.snapshot.paramMap.get('userId');
@@ -102,6 +111,26 @@ export class UserDetailPageComponent {
         }
       });
     }
+
+    this.loadUserClockins();
+  }
+
+  loadUserClockins() {
+    const userId = this.route.snapshot.paramMap.get('userId');
+    if (!userId || userId === 'new') {
+      this.userClockinList.set([]);
+      return;
+    }
+
+    const filter: FichajeFilter = { employeeId: Number(userId) };
+    this.fichajeService.getFichajesWithFilters({ page: 0, size: 100 }, filter).subscribe({
+      next: (page) => {
+        this.userClockinList.set(page.content || []);
+      },
+      error: () => {
+        this.userClockinList.set([]);
+      }
+    });
   }
 
   compareRoles = (a: RoleDTO, b: RoleDTO) => a && b && a.id === b.id;

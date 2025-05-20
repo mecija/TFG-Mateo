@@ -1,15 +1,15 @@
-<div class="w-full flex justify-center items-center py-10  bg-opacity-25">
-  <mat-card class="w-full max-w-lg p-6 rounded-lg shadow-lg bg-white ">
-    <h2 class="text-xl font-bold text-center text-blue-400 mb-4">
-      Registro de Horas
-    </h2>
+<div class="w-full flex justify-center items-center py-10 bg-opacity-25">
+  <mat-card class="w-full max-w-lg p-6 rounded-lg shadow-lg bg-white">
+    <div class="flex flex-row justify-between items-center mb-4">
+      <h2 class="text-xl font-bold text-blue-400">Registro de Horas</h2>
+      <h2 class="font-semibold">Horas este día: {{ todayHours() }}</h2>
+    </div>
 
     <form
       [formGroup]="registroForm"
       (ngSubmit)="onSubmit($event)"
       class="space-y-4"
     >
-      <!-- Día -->
       <mat-form-field class="w-full">
         <mat-label>Día</mat-label>
         <input matInput formControlName="day" type="number" readonly />
@@ -19,7 +19,6 @@
         }
       </mat-form-field>
 
-      <!-- Mes -->
       <mat-form-field class="w-full">
         <mat-label>Mes</mat-label>
         <input matInput formControlName="month" type="number" readonly />
@@ -29,7 +28,6 @@
         }
       </mat-form-field>
 
-      <!-- Hora de Inicio -->
       <mat-form-field class="w-full">
         <mat-label>Hora de Inicio</mat-label>
         <input matInput formControlName="horaInicio" type="time" />
@@ -39,7 +37,6 @@
         }
       </mat-form-field>
 
-      <!-- Hora de Fin -->
       <mat-form-field class="w-full">
         <mat-label>Hora de Fin</mat-label>
         <input matInput formControlName="horaFin" type="time" />
@@ -49,37 +46,43 @@
         }
       </mat-form-field>
 
-      <!-- Descripción -->
       <mat-form-field class="w-full">
         <mat-label>Descripción</mat-label>
         <textarea matInput formControlName="descripcion" rows="3"></textarea>
       </mat-form-field>
 
-      <!-- Botones -->
-      <div class="flex justify-end space-x-4">
+      <div class="flex justify-between items-center mt-6">
         <button
           mat-stroked-button
           color="warn"
           type="button"
-          (click)="registroForm.reset()"
+          (click)="deleteFichajeDelDia()"
+          class="font-semibold px-4 py-2 border-2 border-red-400 hover:bg-red-50 transition-colors duration-200"
         >
-          Limpiar
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="registroForm.invalid"
-        >
-          Guardar
+          🗑️ Borrar registros
         </button>
 
-        <button
-          class="text-red-500 hover:text-red-700 text-1xl"
-          (click)="onClose()"
-        >
-          Cerrar ✖
-        </button>
+        <div class="flex space-x-3">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="registroForm.invalid"
+            class="font-semibold px-6 py-2 shadow-md hover:bg-blue-700 transition-colors duration-200"
+          >
+            💾 Guardar
+          </button>
+
+          <button
+            mat-stroked-button
+            color="accent"
+            type="button"
+            (click)="onClose()"
+            class="font-semibold px-6 py-2 border-2 border-gray-400 hover:bg-gray-100 transition-colors duration-200"
+          >
+            ✖ Cerrar
+          </button>
+        </div>
       </div>
     </form>
   </mat-card>

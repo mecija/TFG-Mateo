@@ -1,94 +1,94 @@
 <div class="w-full min-h-screen flex justify-center items-start py-10 bg-gray-50">
-  <mat-card class="w-full max-w-3xl p-8 rounded-2xl shadow-lg bg-white">
-    <h2 class="text-2xl font-bold mb-6 text-center text-blue-400">
-      Detalles del Usuario
-    </h2>
+  <div class="w-full max-w-6xl flex flex-col md:flex-row gap-8">
+    <mat-card class="w-full md:w-1/2 p-8 rounded-2xl shadow-lg bg-white">
+      <h2 class="text-2xl font-bold mb-6 text-center text-blue-400">
+        Detalles del Usuario
+      </h2>
 
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit($event)">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- ID (solo lectura) -->
-        <mat-form-field class="w-full">
-          <mat-label>ID</mat-label>
-          <input matInput placeholder="ID" formControlName="id" [readonly]="true" />
-        </mat-form-field>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit($event)">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <mat-form-field class="w-full">
+            <mat-label>ID</mat-label>
+            <input matInput placeholder="ID" formControlName="id" [readonly]="true" />
+          </mat-form-field>
 
-        <!-- Nombre -->
-        <mat-form-field class="w-full">
-          <mat-label>Nombre</mat-label>
-          <input matInput placeholder="Nombre" formControlName="name" />
-        </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre" formControlName="name" />
+          </mat-form-field>
 
-        <!-- Email -->
-        <mat-form-field class="w-full">
-          <mat-label>Email</mat-label>
-          <input matInput placeholder="Email" formControlName="email" />
-        </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email" />
+          </mat-form-field>
 
-        <!-- Contraseña (solo para nuevo usuario) -->
-        @if (isNewUser()) {
-        <mat-form-field class="w-full">
-          <mat-label>Contraseña</mat-label>
-          <input
-            matInput
-            placeholder="Contraseña"
-            formControlName="password"
-            type="password"
-          />
-        </mat-form-field>
-        }
-
-        <!-- Estado (enabled/disabled) -->
-        <mat-form-field class="w-full">
-          <mat-label>Estado</mat-label>
-          <mat-select formControlName="enabled">
-            <mat-option [value]="true">Activo</mat-option>
-            <mat-option [value]="false">Deshabilitado</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <!-- Roles (selector múltiple) -->
-        <mat-form-field class="w-full md:col-span-2">
-          <mat-label>Roles</mat-label>
-          <mat-select formControlName="roles" multiple [compareWith]="compareRoles">
-            @for (role of roles; track role.id) {
-            <mat-option [value]="role">
-              {{ role.name }} - {{ role.description }}
-            </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <!-- Botones -->
-      <div class="flex justify-between mt-6 space-x-4">
-        <!-- Botón borrar alineado a la izquierda -->
-        <div>
-          @if (isAdmin()) {
-          <button
-            mat-raised-button
-            color="warn"
-            type="button"
-            (click)="onDelete()"
-          >
-            Borrar
-          </button>
+          @if (isNewUser()) {
+          <mat-form-field class="w-full">
+            <mat-label>Contraseña</mat-label>
+            <input
+              matInput
+              placeholder="Contraseña"
+              formControlName="password"
+              type="password"
+            />
+          </mat-form-field>
           }
+
+          <mat-form-field class="w-full">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="enabled">
+              <mat-option [value]="true">Activo</mat-option>
+              <mat-option [value]="false">Deshabilitado</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="w-full md:col-span-2">
+            <mat-label>Roles</mat-label>
+            <mat-select formControlName="roles" multiple [compareWith]="compareRoles">
+              @for (role of roles; track role.id) {
+              <mat-option [value]="role">
+                {{ role.name }} - {{ role.description }}
+              </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
         </div>
-        <!-- Botones cancelar y guardar alineados a la derecha -->
-        <div class="flex space-x-4">
-          <button
-            mat-raised-button
-            color="warn"
-            type="button"
-            (click)="onCancel()"
-          >
-            Cancelar
-          </button>
-          <button mat-raised-button color="primary" type="submit">
-            Guardar
-          </button>
+
+        <div class="flex justify-between mt-6 space-x-4">
+          <div>
+            @if (isAdmin()) {
+            <button
+              mat-raised-button
+              color="warn"
+              type="button"
+              (click)="onDelete()"
+            >
+              Borrar
+            </button>
+            }
+          </div>
+          <div class="flex space-x-4">
+            <button
+              mat-raised-button
+              color="warn"
+              type="button"
+              (click)="onCancel()"
+            >
+              Cancelar
+            </button>
+            <button mat-raised-button color="primary" type="submit">
+              Guardar
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
-  </mat-card>
+      </form>
+    </mat-card>
+
+    <mat-card class="w-full md:w-1/2 p-8 rounded-2xl shadow-lg bg-white">
+      <h2 class="text-xl font-bold mb-6 text-blue-400 text-center">
+        Fichajes del Usuario
+      </h2>
+      <app-user-clockin-table-list [fichajes]="userClockinList()"></app-user-clockin-table-list>
+    </mat-card>
+  </div>
 </div>

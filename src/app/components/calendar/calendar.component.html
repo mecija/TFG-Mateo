@@ -6,13 +6,11 @@
           {{ month.name }}
         </h3>
         <div class="grid grid-cols-7 gap-0 text-center text-sm">
-          <!-- Días de la semana -->
           @for (day of weekDays; track $index) {
             <div class="font-bold text-gray-500">
               {{ day }}
             </div>
           }
-          <!-- Días del mes -->
           @for (day of month.days; track $index) {
             <div
               class="p-1 rounded-md hover:bg-blue-100 cursor-pointer"
